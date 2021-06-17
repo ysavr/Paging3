@@ -20,7 +20,7 @@ interface APIService {
             .add(KotlinJsonAdapterFactory())
             .build()
 
-        fun getApiService() = Retrofit.Builder()
+        fun getApiService(): APIService = Retrofit.Builder()
             .baseUrl("https://reqres.in/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()

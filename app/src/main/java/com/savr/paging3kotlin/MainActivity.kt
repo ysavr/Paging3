@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var viewModel: MainViewModel
-    lateinit var mainAdapter: MainAdapter
+    private lateinit var viewModel: MainViewModel
+    private lateinit var mainAdapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

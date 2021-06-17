@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.savr.paging3kotlin.R
 import com.savr.paging3kotlin.data.response.Data
 import kotlinx.android.synthetic.main.item_list.view.*
@@ -18,6 +19,9 @@ class MainAdapter : PagingDataAdapter<Data, MainAdapter.ViewHolder>(DataDifferen
         val text = "${getItem(position)?.firstName} ${getItem(position)?.lastName}"
         holder.itemView.textViewName.text = text
         holder.itemView.textViewEmail.text = getItem(position)?.email
+        Glide.with(holder.itemView.context)
+            .load(getItem(position)?.avatar)
+            .into(holder.itemView.imgAvatar)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
