@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Paging3Kotlin</string>
+    <string name="retry">RETRY</string>
 </resources>
