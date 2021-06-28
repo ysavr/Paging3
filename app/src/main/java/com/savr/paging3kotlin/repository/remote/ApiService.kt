@@ -1,6 +1,7 @@
 package com.savr.paging3kotlin.repository.remote
 
 import com.savr.paging3kotlin.model.remote.MovieResponse
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -12,7 +13,7 @@ interface APIService {
     suspend fun getMovie(
         @Query("api_key") apiKey: String,
         @Query("language") language : String,
-        @Query("page") page : Int) : MovieResponse
+        @Query("page") page : Int) : Response<MovieResponse>
 
     companion object {
 

@@ -22,7 +22,7 @@ class MoviePagingSource(private val service: APIService = APIService.getApiServi
 
         return try {
 
-            val data = service.getMovie(API_KEY, LANGUAGE, pagePosition).movieList
+            val data = service.getMovie(API_KEY, LANGUAGE, pagePosition).body()!!.movieList
             val prevKey = if (pagePosition == STARTING_PAGE_INDEX) null else pagePosition - 1
             val nextKey = if (data.isEmpty()) null else pagePosition + 1
 

@@ -13,7 +13,7 @@ import com.savr.paging3kotlin.repository.local.LocalInjector
 import com.savr.paging3kotlin.repository.remote.APIService
 import kotlinx.coroutines.flow.Flow
 
-class MainRepository(val appDatabase: AppDatabase? = LocalInjector.injectDb()) {
+class MainRepository(private val appDatabase: AppDatabase? = LocalInjector.injectDb()) {
 
     fun getMovie(): Flow<PagingData<MovieData>> {
         return Pager(
