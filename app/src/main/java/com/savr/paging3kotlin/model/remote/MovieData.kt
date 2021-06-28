@@ -1,4 +1,4 @@
-package com.savr.paging3kotlin.model
+package com.savr.paging3kotlin.model.remote
 
 import com.google.gson.annotations.SerializedName
 

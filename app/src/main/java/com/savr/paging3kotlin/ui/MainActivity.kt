@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import com.savr.paging3kotlin.utils.visibleWhen
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider(this)[MainViewModel::class.java]
     }
 
+    @ExperimentalPagingApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -58,10 +61,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalPagingApi
     private fun fetchMovie() {
         movieJob?.cancel()
         movieJob = lifecycleScope.launch {
-            viewModel.movieList().collectLatest {
+//            viewModel.movieList().collectLatest {
+//                movieAdapter.submitData(it)
+//            }
+            viewModel.fetchMovie().collectLatest {
                 movieAdapter.submitData(it)
             }
         }

@@ -2,7 +2,7 @@ package com.savr.paging3kotlin.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.savr.paging3kotlin.model.MovieData
+import com.savr.paging3kotlin.model.remote.MovieData
 import com.savr.paging3kotlin.repository.remote.APIService
 import retrofit2.HttpException
 import java.io.IOException

@@ -1,5 +1,6 @@
 package com.savr.paging3kotlin.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +11,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.savr.paging3kotlin.R
-import com.savr.paging3kotlin.model.MovieData
+import com.savr.paging3kotlin.model.local.MovieEntity
+import com.savr.paging3kotlin.model.remote.MovieData
 import kotlinx.android.synthetic.main.item_movie.view.*
 
-class MainAdapter : PagingDataAdapter<MovieData, MainAdapter.ViewHolder>(DataDifferentiator) {
+class MainAdapter : PagingDataAdapter<MovieEntity, MainAdapter.ViewHolder>(DataDifferentiator) {
 
     companion object {
         private const val IMAGE_URL = "https://image.tmdb.org/t/p/w92/"
@@ -23,9 +25,9 @@ class MainAdapter : PagingDataAdapter<MovieData, MainAdapter.ViewHolder>(DataDif
         private val image: ImageView = view.iv_thumbnail
         private val title: TextView = view.tv_title
         private val date: TextView = view.tv_date
-        private var movie: MovieData? = null
+        private var movie: MovieEntity? = null
 
-        fun bind(it: MovieData) {
+        fun bind(it: MovieEntity) {
             Glide.with(itemView.context)
                 .load(IMAGE_URL + it.posterPath)
                 .into(image)
@@ -49,13 +51,14 @@ class MainAdapter : PagingDataAdapter<MovieData, MainAdapter.ViewHolder>(DataDif
         )
     }
 
-    object DataDifferentiator : DiffUtil.ItemCallback<MovieData>() {
+    object DataDifferentiator : DiffUtil.ItemCallback<MovieEntity>() {
 
-        override fun areItemsTheSame(oldItem: MovieData, newItem: MovieData): Boolean {
+        override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: MovieData, newItem: MovieData): Boolean {
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
             return oldItem == newItem
         }
     }
