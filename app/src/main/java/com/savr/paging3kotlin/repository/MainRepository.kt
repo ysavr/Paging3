@@ -27,7 +27,7 @@ class MainRepository(private val appDatabase: AppDatabase? = LocalInjector.injec
         if (appDatabase == null) throw  IllegalStateException("Database is not initialized")
 
         return Pager(
-            config = PagingConfig(pageSize = 10),
+            config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { appDatabase.getMovieDao().getAllMovie() },
             remoteMediator = MovieMediator(apiService = APIService.getApiService(), appDatabase = appDatabase)
         ).flow

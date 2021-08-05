@@ -1,5 +1,6 @@
 package com.savr.paging3kotlin.mediator
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -16,6 +17,11 @@ class MovieMediator(
     private val apiService: APIService = APIService.getApiService(),
     private val appDatabase: AppDatabase
 ) : RemoteMediator<Int, MovieEntity>() {
+
+//    override suspend fun initialize(): InitializeAction {
+//        return InitializeAction.LAUNCH_INITIAL_REFRESH
+//    }
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, MovieEntity>
@@ -33,15 +39,23 @@ class MovieMediator(
                     val nextKey = remoteKeys?.nextKey
                         ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
                     nextKey
+//                    remoteKeys?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
 
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
+//                    val remoteKeys = getFirstRemoteKey(state)
+//                    val prevKey = remoteKeys?.prevKey
+//                        ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+//                    prevKey
                 }
             }
+            Log.d("LoadType", loadType.toString())
+            Log.d("LoadType", "page $page")
 
             val response = apiService.getMovie(API_KEY, LANGUAGE, page)
             val endOfPagination = response.body()?.movieList?.size!! < state.config.pageSize
+            Log.d("LoadType", "endOfPagination $endOfPagination")
 
             if (response.isSuccessful) {
                 appDatabase.withTransaction {
@@ -105,9 +119,9 @@ class MovieMediator(
      * get the closest remote key inserted which had the data
      */
     private suspend fun getClosestRemoteKey(state: PagingState<Int, MovieEntity>): RemoteKeys? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { repoId ->
-                appDatabase.getRemoteDao().remoteKeyMovieId(repoId)
+        return state.anchorPosition?.let {
+            state.closestItemToPosition(it)?.let { movie ->
+                appDatabase.getRemoteDao().remoteKeyMovieId(movie.id)
             }
         }
     }
